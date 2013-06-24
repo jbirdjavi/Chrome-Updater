@@ -4,8 +4,8 @@
 pkgname="chrome-updater"
 pkgdesc="Google Chrome with auto updates : Drop the Google Chrome [auto-updater] out of the Launcher in you're Panel/Dock and enjoy using Chrome WITH auto Updates"
 pkgver="1.1"
+pkgrel=2
 depends=('polkit' 'curl' 'wget' 'google-chrome' 'pacman')
-pkgrel=1
 url="https://github.com/jbirdjavi/chrome-updater"
 arch=('i686', 'x86_64')
 source=('google-chrome-auto.desktop'
