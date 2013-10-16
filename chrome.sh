@@ -42,5 +42,5 @@ if !(is_file_exits "/home/`whoami`/.chromeblock") then
 	fi
 else
 	notify-send --icon=edit-delete "Nice try, but we are not ready yet.";
-	firefox "http://www.google.com/pacman/";
+	exo-open --launch WebBrowser "http://www.google.com/pacman/";
 fi
