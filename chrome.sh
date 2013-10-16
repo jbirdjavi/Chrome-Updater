@@ -8,15 +8,27 @@
 	[[ -f "$f" ]] && return 0 || return 1
 	}
 
+# Test for network conection per http://stackoverflow.com/a/14939373
+# Not this just check if the interface is actually up. 
+for interface in $(ls /sys/class/net/ | grep -v lo);
+do
+  if [[ $(cat /sys/class/net/$interface/carrier) = 1 ]]; then 
+	if [[ `ip r | grep default` ]]; then
+		OnLine=1; 
+	fi
+  fi	
+done
+if ! [ $OnLine ]; then echo "Not Online" > /dev/stderr && OnLine=0; exit; fi
+
 if !(is_file_exits "/home/`whoami`/.chromeblock") then
 	if (is_file_exits "/home/`whoami`/.chrome-update-history") then
 		if [[ `date +"%j"` != `sed -ne '1p' "/home/\`whoami\`/.chrome-update-history"` ]]; then
-			if ping -c 1 8.8.8.8 > /dev/null; then
+			if OnLine=1; then
 			echo -e "`date +'%j'`\n`curl "https://aur.archlinux.org/rpc.php?type=info&arg=37469" | sh json.sh | egrep '\["results","Version"\]' | cut -f2`" > "/home/`whoami`/.chrome-update-history";
 			fi
 		fi
 	else
-		if ping -c 1 8.8.8.8 > /dev/null; then
+		if OnLine=1; then
 		echo -e "`date +'%j'`\n`curl "https://aur.archlinux.org/rpc.php?type=info&arg=37469" | sh json.sh | egrep '\["results","Version"\]' | cut -f2`" > "/home/`whoami`/.chrome-update-history";
 		fi
 	fi
@@ -30,5 +42,5 @@ if !(is_file_exits "/home/`whoami`/.chromeblock") then
 	fi
 else
 	notify-send --icon=edit-delete "Nice try, but we are not ready yet.";
-	firefox "http://www.google.com/pacman/";
+	exo-open --launch WebBrowser "http://www.google.com/pacman/";
 fi
