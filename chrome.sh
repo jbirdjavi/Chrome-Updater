@@ -20,21 +20,21 @@ do
 done
 if ! [ $OnLine ]; then echo "Not Online" > /dev/stderr && OnLine=0; exit; fi
 
-if !(is_file_exits "/home/`whoami`/.chromeblock") then
-	if (is_file_exits "/home/`whoami`/.chrome-update-history") then
+if !(is_file_exits "$HOME/.chromeblock") then
+	if (is_file_exits "$HOME/.chrome-update-history") then
 		if [[ `date +"%j"` != `sed -ne '1p' "/home/\`whoami\`/.chrome-update-history"` ]]; then
 			if OnLine=1; then
-			echo -e "`date +'%j'`\n`curl "https://aur.archlinux.org/rpc.php?type=info&arg=37469" | sh json.sh | egrep '\["results","Version"\]' | cut -f2`" > "/home/`whoami`/.chrome-update-history";
+			echo -e "`date +'%j'`\n`curl "https://aur.archlinux.org/rpc.php?type=info&arg=37469" | sh json.sh | egrep '\["results","Version"\]' | cut -f2`" > "$HOME/.chrome-update-history";
 			fi
 		fi
 	else
 		if OnLine=1; then
-		echo -e "`date +'%j'`\n`curl "https://aur.archlinux.org/rpc.php?type=info&arg=37469" | sh json.sh | egrep '\["results","Version"\]' | cut -f2`" > "/home/`whoami`/.chrome-update-history";
+		echo -e "`date +'%j'`\n`curl "https://aur.archlinux.org/rpc.php?type=info&arg=37469" | sh json.sh | egrep '\["results","Version"\]' | cut -f2`" > "$HOME/.chrome-update-history";
 		fi
 	fi
 
 
-	if [[ *`sed -ne '2p' "/home/\`whoami\`/.chrome-update-history"`* !=  *`google-chrome --version | cut -d " " -f3`* &&  `sed -ne '2p' "/home/\`whoami\`/.chrome-update-history"` != "" ]]; then
+	if [[ *`sed -ne '2p' "$HOME/.chrome-update-history"`* !=  *`google-chrome --version | cut -d " " -f3`* &&  `sed -ne '2p' "$HOME/.chrome-update-history"` != "" ]]; then
 		notify-send --icon=google-chrome "Update" "New Update is there."
 		pkexec sh /usr/share/chrome-update/update_chrome.sh
 	else
