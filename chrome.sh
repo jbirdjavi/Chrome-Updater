@@ -18,7 +18,7 @@ do
 	fi
   fi	
 done
-if ! [ $OnLine ]; then echo "Not Online" > /dev/stderr && OnLine=0; fi
+if ! [ $OnLine ]; then echo "Not Online" > /dev/stderr && OnLine=0; exit; fi
 
 if !(is_file_exits "/home/`whoami`/.chromeblock") then
 	if (is_file_exits "/home/`whoami`/.chrome-update-history") then
