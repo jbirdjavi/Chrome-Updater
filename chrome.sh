@@ -22,7 +22,7 @@ if ! [ $OnLine ]; then echo "Not Online" > /dev/stderr && OnLine=0; exit; fi
 
 if !(is_file_exits "$HOME/.chromeblock") then
 	if (is_file_exits "$HOME/.chrome-update-history") then
-		if [[ `date +"%j"` != `sed -ne '1p' "/home/\`whoami\`/.chrome-update-history"` ]]; then
+		if [[ `date +"%j"` != `sed -ne '1p' "$HOME/.chrome-update-history"` ]]; then
 			if OnLine=1; then
 			echo -e "`date +'%j'`\n`curl "https://aur.archlinux.org/rpc.php?type=info&arg=37469" | sh json.sh | egrep '\["results","Version"\]' | cut -f2`" > "$HOME/.chrome-update-history";
 			fi
